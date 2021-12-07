@@ -28,7 +28,7 @@ const asMock = {
 
   removeItem: jest.fn((key, callback) => asMock.multiRemove([key], callback)),
   mergeItem: jest.fn((key, value, callback) =>
-    asMock.multiMerge([[key, value]], callback),
+    asMock.multiMerge([[key, value]], callback)
   ),
 
   clear: jest.fn(_clear),
@@ -100,7 +100,7 @@ async function _multiMerge(keyValuePairs, callback) {
     const oldValue = JSON.parse(asMock.__INTERNAL_MOCK_STORAGE__[key]);
 
     asMock.__INTERNAL_MOCK_STORAGE__[key] = JSON.stringify(
-      merge(oldValue, value),
+      merge(oldValue, value)
     );
   });
 
