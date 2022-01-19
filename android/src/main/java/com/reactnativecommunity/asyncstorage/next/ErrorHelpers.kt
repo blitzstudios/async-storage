@@ -2,6 +2,7 @@ package com.reactnativecommunity.asyncstorage.next
 
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.Callback
+import com.facebook.react.bridge.ReadableArray
 import kotlinx.coroutines.CoroutineExceptionHandler
 
 internal fun createExceptionHandler(cb: Callback): CoroutineExceptionHandler {
@@ -10,6 +11,21 @@ internal fun createExceptionHandler(cb: Callback): CoroutineExceptionHandler {
         if (throwable !is AsyncStorageError) {
             error.putString(
                 "message", "Unexpected AsyncStorage error: ${throwable.localizedMessage}"
+            )
+        } else {
+            error.putString("message", throwable.errorMessage)
+        }
+
+        cb(error)
+    }
+}
+
+internal fun createExceptionHandler(cb: Callback, keys: ReadableArray): CoroutineExceptionHandler {
+    return CoroutineExceptionHandler { _, throwable ->
+        val error = Arguments.createMap()
+        if (throwable !is AsyncStorageError) {
+            error.putString(
+                "message", "Unexpected AsyncStorage error: ${throwable.localizedMessage} for $keys"
             )
         } else {
             error.putString("message", throwable.errorMessage)
