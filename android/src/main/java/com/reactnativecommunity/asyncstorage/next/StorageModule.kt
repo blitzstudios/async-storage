@@ -38,7 +38,7 @@ class StorageModule(reactContext: ReactContext) : ReactContextBaseJavaModule(), 
 
     @ReactMethod
     fun multiGet(keys: ReadableArray, cb: Callback) {
-        launch(createExceptionHandler(cb, keys)) {
+        launch(createExceptionHandler(cb, keys, "get")) {
             val entries = storage.getValues(keys.toKeyList())
             cb(null, entries.toKeyValueArgument())
         }
@@ -46,7 +46,7 @@ class StorageModule(reactContext: ReactContext) : ReactContextBaseJavaModule(), 
 
     @ReactMethod
     fun multiSet(keyValueArray: ReadableArray, cb: Callback) {
-        launch(createExceptionHandler(cb, keyValueArray)) {
+        launch(createExceptionHandler(cb, keyValueArray, "set")) {
             val entries = keyValueArray.toEntryList()
             storage.setValues(entries)
             cb(null)
@@ -55,7 +55,7 @@ class StorageModule(reactContext: ReactContext) : ReactContextBaseJavaModule(), 
 
     @ReactMethod
     fun multiRemove(keys: ReadableArray, cb: Callback) {
-        launch(createExceptionHandler(cb, keys)) {
+        launch(createExceptionHandler(cb, keys, "remove")) {
             storage.removeValues(keys.toKeyList())
             cb(null)
         }
@@ -63,7 +63,7 @@ class StorageModule(reactContext: ReactContext) : ReactContextBaseJavaModule(), 
 
     @ReactMethod
     fun multiMerge(keyValueArray: ReadableArray, cb: Callback) {
-        launch(createExceptionHandler(cb, keyValueArray)) {
+        launch(createExceptionHandler(cb, keyValueArray, "merge")) {
             val entries = keyValueArray.toEntryList()
             storage.mergeValues(entries)
             cb(null)

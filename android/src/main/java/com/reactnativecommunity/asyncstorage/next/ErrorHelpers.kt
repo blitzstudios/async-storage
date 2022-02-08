@@ -20,12 +20,12 @@ internal fun createExceptionHandler(cb: Callback): CoroutineExceptionHandler {
     }
 }
 
-internal fun createExceptionHandler(cb: Callback, keys: ReadableArray): CoroutineExceptionHandler {
+internal fun createExceptionHandler(cb: Callback, keys: ReadableArray, type: String): CoroutineExceptionHandler {
     return CoroutineExceptionHandler { _, throwable ->
         val error = Arguments.createMap()
         if (throwable !is AsyncStorageError) {
             error.putString(
-                "message", "Unexpected AsyncStorage error: ${throwable.localizedMessage} for $keys"
+                "message", "Unexpected AsyncStorage[$type] error: ${throwable.localizedMessage} for $keys"
             )
         } else {
             error.putString("message", throwable.errorMessage)
